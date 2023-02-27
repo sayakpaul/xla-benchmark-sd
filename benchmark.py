@@ -24,41 +24,26 @@ def load_keras_cv_sd(jit_compile=True):
     return model
 
 
-def create_concrete_fn(model_path):
+def load_saved_model(model_path):
     model_loaded = tf.saved_model.load(model_path, tags=[tag_constants.SERVING])
-    return model_loaded.signatures["serving_default"]
+    return model_loaded
 
 
 def load_concrete_fns_sd(jit_compile=True):
     """Loads the SavedModels of SD as concrete functions."""
-    df_model_fn = create_concrete_fn(DIFFUSION_MODEL_PATH)
-    text_encoder_fn = create_concrete_fn(TEXT_ENCODER_PATH)
-    decoder_fn = create_concrete_fn(DECODER_PATH)
+    df_model = load_saved_model(DIFFUSION_MODEL_PATH)
+    df_model_fn = df_model.signatures["serving_default"]
+    
+    text_encoder = load_saved_model(TEXT_ENCODER_PATH)
+    text_encoder_fn = text_encoder.signatures["serving_default"]
+    
+    decoder = load_saved_model(DECODER_PATH)
+    decoder_fn = decoder.signatures["serving_default"]
 
     if jit_compile:
         df_model_fn = tf.function(df_model_fn, jit_compile=jit_compile)
         decoder_fn = tf.function(decoder_fn, jit_compile=jit_compile)
         # Cannot XLA-compile the text encoder. See: https://github.com/tensorflow/tensorflow/issues/59818
-
-    # Having to run these here instead of calling `run_inference_concrete_fn()`
-    # probably because of come variable-scoping problems.
-    # Diffusion model concrete func.
-    batch_size = tf.constant(NUM_IMAGES_TO_GEN)
-    context = tf.random.normal((batch_size, MAX_PROMPT_LENGTH, HIDDEN_DIM))
-    num_steps = tf.constant(10)
-    unconditional_guidance_scale = tf.constant(10.5)
-    _ = df_model_fn(
-        context=context,
-        num_steps=num_steps,
-        unconditional_context=context,
-        unconditional_guidance_scale=unconditional_guidance_scale,
-    )
-
-    # Text-encoder concrete func.
-    _ = text_encoder_fn(tokens=tf.ones((batch_size, MAX_PROMPT_LENGTH), tf.int32))
-
-    # Decoder concrete func.
-    _ = decoder_fn(latent=tf.random.normal((batch_size, LATENTS_RES, LATENTS_RES, 4)))
 
     return df_model_fn, text_encoder_fn, decoder_fn
 
