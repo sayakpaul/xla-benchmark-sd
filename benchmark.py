@@ -36,7 +36,7 @@ def load_concrete_fns_sd(jit_compile=True):
 
     if jit_compile:
         df_model_fn = tf.function(df_model_fn, jit_compile=jit_compile)
-        decoder_fn = tf.function(df_model_fn, jit_compile=jit_compile)
+        decoder_fn = tf.function(decoder_fn, jit_compile=jit_compile)
         # Cannot XLA-compile the text encoder. See: https://github.com/tensorflow/tensorflow/issues/59818
 
     return df_model_fn, text_encoder_fn, decoder_fn
