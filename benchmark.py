@@ -48,13 +48,12 @@ def run_inference_concrete_fn(df_model_fn, text_encoder_fn, decoder_fn):
     batch_size = tf.constant(NUM_IMAGES_TO_GEN)
     context = tf.random.normal((batch_size, MAX_PROMPT_LENGTH, HIDDEN_DIM))
     num_steps = tf.constant(10)
-    unconditional_context = tf.random.normal((batch_size, 77, 768))
     unconditional_guidance_scale = tf.constant(10.5)
 
     _ = df_model_fn(
         context=context,
         num_steps=num_steps,
-        unconditional_context=unconditional_context,
+        unconditional_context=context,
         unconditional_guidance_scale=unconditional_guidance_scale,
     )
 
@@ -73,7 +72,7 @@ def run_inference_kerascv_sd(model):
 def run_dummy_inference(model):
     # Concrete functions.
     if isinstance(model, tuple):
-        df_model_fn, text_encoder_fn, decoder_fn = model
+        df_model_fn, text_encoder_fn, decoder_fn = model[0], model[1], model[2]
         run_inference_concrete_fn(df_model_fn, text_encoder_fn, decoder_fn)
     else:
         run_inference_kerascv_sd(model)
