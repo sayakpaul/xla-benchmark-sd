@@ -19,7 +19,7 @@ We use the Stable Diffusion model [shipped](https://keras.io/guides/keras_cv/gen
 * SavedModels with XLA 10.29 seconds
 * SavedModels without XLA 13.69 seconds
 
-~25% w.r.t non-XLA SavedModel & ~17% w.r.t KerasCV. 
+**_~25% w.r.t non-XLA SavedModel & ~17% w.r.t KerasCV._** 
 
 ## Steps 
 
