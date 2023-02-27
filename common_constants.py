@@ -3,7 +3,7 @@ IMG_HEIGHT = 512
 IMG_WIDTH = 512
 HIDDEN_DIM = 768
 
-NUM_IMAGES_TO_GEN = 3 # Needs to be fixed otherwise the `tf.repeat()` will be complain.
+NUM_IMAGES_TO_GEN = 3  # Needs to be fixed otherwise the `tf.repeat()` will be complain.
 
 LATENTS_RES = 64
 PADDING_TOKEN = 49407

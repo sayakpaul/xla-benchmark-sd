@@ -1,14 +1,20 @@
-import tensorflow as tf 
 import keras_cv
+import tensorflow as tf
 
-from common_constants import IMG_HEIGHT, IMG_WIDTH, MAX_PROMPT_LENGTH, DIFFUSION_MODEL_PATH, TEXT_ENCODER_PATH, DECODER_PATH
-from exporters import text_encoder_exporter, diffusion_model_exporter, decoder_exporter
+from common_constants import (DECODER_PATH, DIFFUSION_MODEL_PATH, IMG_HEIGHT,
+                              IMG_WIDTH, MAX_PROMPT_LENGTH, TEXT_ENCODER_PATH)
+from exporters import (decoder_exporter, diffusion_model_exporter,
+                       text_encoder_exporter)
 
 
 def load_sd_models():
     """Loads the sub-models of Stable Diffusion."""
-    text_encoder = keras_cv.models.stable_diffusion.text_encoder.TextEncoder(MAX_PROMPT_LENGTH)
-    diffusion_model = keras_cv.models.stable_diffusion.diffusion_model.DiffusionModel(IMG_HEIGHT, IMG_WIDTH, MAX_PROMPT_LENGTH)
+    text_encoder = keras_cv.models.stable_diffusion.text_encoder.TextEncoder(
+        MAX_PROMPT_LENGTH
+    )
+    diffusion_model = keras_cv.models.stable_diffusion.diffusion_model.DiffusionModel(
+        IMG_HEIGHT, IMG_WIDTH, MAX_PROMPT_LENGTH
+    )
     decoder = keras_cv.models.stable_diffusion.decoder.Decoder(IMG_HEIGHT, IMG_WIDTH)
     return text_encoder, diffusion_model, decoder
 
