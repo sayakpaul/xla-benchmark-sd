@@ -112,7 +112,7 @@ def main(args):
         df_model_fn, text_encoder_fn, decoder_fn = load_concrete_fns_sd(
             args.jit_compile
         )
-        model = df_model_fn, text_encoder_fn, decoder_fn
+        model = (df_model_fn, text_encoder_fn, decoder_fn)
     else:
         model = load_keras_cv_sd(args.jit_compile)
 
