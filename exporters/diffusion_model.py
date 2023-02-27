@@ -1,6 +1,6 @@
 from keras_cv.models.stable_diffusion.constants import _ALPHAS_CUMPROD
 import tensorflow as tf
-from ..common_constants import MAX_PROMPT_LENGTH, HIDDEN_DIM
+from .common_constants import MAX_PROMPT_LENGTH, HIDDEN_DIM
 
 ALPHAS_CUMPROD_tf = tf.constant(_ALPHAS_CUMPROD)
 

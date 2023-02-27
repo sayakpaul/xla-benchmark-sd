@@ -1,10 +1,11 @@
 import keras_cv
 import tensorflow as tf
 
-from common_constants import (DECODER_PATH, DIFFUSION_MODEL_PATH, IMG_HEIGHT,
-                              IMG_WIDTH, MAX_PROMPT_LENGTH, TEXT_ENCODER_PATH)
 from exporters import (decoder_exporter, diffusion_model_exporter,
                        text_encoder_exporter)
+from exporters.common_constants import (DECODER_PATH, DIFFUSION_MODEL_PATH,
+                                        IMG_HEIGHT, IMG_WIDTH,
+                                        MAX_PROMPT_LENGTH, TEXT_ENCODER_PATH)
 
 
 def load_sd_models():

@@ -1,6 +1,6 @@
 from keras_cv.models.stable_diffusion.constants import _UNCONDITIONAL_TOKENS
 import tensorflow as tf
-from ..common_constants import MAX_PROMPT_LENGTH, NUM_IMAGES_TO_GEN
+from .common_constants import MAX_PROMPT_LENGTH, NUM_IMAGES_TO_GEN
 
 POS_IDS = tf.convert_to_tensor([list(range(MAX_PROMPT_LENGTH))], dtype=tf.int32)
 UNCONDITIONAL_TOKENS = tf.convert_to_tensor([_UNCONDITIONAL_TOKENS], dtype=tf.int32)

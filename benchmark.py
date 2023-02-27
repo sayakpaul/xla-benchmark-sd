@@ -7,10 +7,11 @@ import tensorflow as tf
 from keras_cv.models.stable_diffusion.clip_tokenizer import SimpleTokenizer
 from tensorflow.python.saved_model import tag_constants
 
-from common_constants import (DECODER_PATH, DIFFUSION_MODEL_PATH, HIDDEN_DIM,
-                              IMG_HEIGHT, IMG_WIDTH, LATENTS_RES,
-                              MAX_PROMPT_LENGTH, NUM_IMAGES_TO_GEN,
-                              PADDING_TOKEN, TEXT_ENCODER_PATH)
+from exporters.common_constants import (DECODER_PATH, DIFFUSION_MODEL_PATH,
+                                        HIDDEN_DIM, IMG_HEIGHT, IMG_WIDTH,
+                                        LATENTS_RES, MAX_PROMPT_LENGTH,
+                                        NUM_IMAGES_TO_GEN, PADDING_TOKEN,
+                                        TEXT_ENCODER_PATH)
 
 GPUS = tf.config.list_logical_devices("GPU")
 TOKENIZER = SimpleTokenizer()

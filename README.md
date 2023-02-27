@@ -8,6 +8,7 @@ We use the Stable Diffusion model [shipped](https://keras.io/guides/keras_cv/gen
 
 * [Results](#results)
 * [Steps](#steps)
+* [Running the benchmark](#running-the-benchmark)
 * [Benchmark details](#details-of-the-benchmark)
 * [Gotchas](#gotchas)
 * [Acknowledgements](#acknowledgements)
@@ -15,6 +16,22 @@ We use the Stable Diffusion model [shipped](https://keras.io/guides/keras_cv/gen
 ## Results 
 
 ## Steps 
+
+We first isolate the sub-models involved in Stable Diffusion and serialize them as
+stand-alone SavedModels:
+
+* Text encoder
+* Diffusion model aka UNet
+* Decoder
+
+The SavedModel also includes their respective computations. For example SavedModel of the text encoder includes the processing of prompt context and the unconditional context. Similarly, SavedModel of the UNet includes the computations for the diffusion 
+process. 
+
+For the serialization, just run `serialize_savedmodels.py`. 
+
+Once the SavedModels are generated, we load them as concrete functions and XLA-compile them before running inference. We include the complete code for this in `benchmark.py`. 
+
+## Running the benchmark
 
 ## Details of the benchmark
 

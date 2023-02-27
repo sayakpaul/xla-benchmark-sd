@@ -1,5 +1,5 @@
 import tensorflow as tf 
-from ..common_constants import LATENTS_RES
+from .common_constants import LATENTS_RES
 
 
 SIGNATURE_DICT = {
