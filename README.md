@@ -4,8 +4,20 @@ This repository provides code to serialize the different models involved in Stab
 
 We use the Stable Diffusion model [shipped](https://keras.io/guides/keras_cv/generate_images_with_stable_diffusion/) from KerasCV.
 
+**Table of content**
+
+* [Results](#results)
+* [Steps](#steps)
+* [Benchmark details](#details-of-the-benchmark)
+* [Gotchas](#gotchas)
+* [Acknowledgements](#acknowledgements)
+
 ## Results 
 
 ## Steps 
 
 ## Details of the benchmark
+
+## Gotchas
+
+## Acknowledgements
