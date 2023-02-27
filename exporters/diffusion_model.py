@@ -1,18 +1,24 @@
-from keras_cv.models.stable_diffusion.constants import _ALPHAS_CUMPROD
 import tensorflow as tf
-from .common_constants import MAX_PROMPT_LENGTH, HIDDEN_DIM, IMG_HEIGHT, IMG_WIDTH
+from keras_cv.models.stable_diffusion.constants import _ALPHAS_CUMPROD
+
+from .common_constants import (HIDDEN_DIM, IMG_HEIGHT, IMG_WIDTH,
+                               MAX_PROMPT_LENGTH, NUM_IMAGES_TO_GEN)
 
 ALPHAS_CUMPROD_tf = tf.constant(_ALPHAS_CUMPROD)
 
 SIGNATURE_DICT = {
-    "context": tf.TensorSpec(shape=[None, MAX_PROMPT_LENGTH, HIDDEN_DIM], dtype=tf.float32, name="context"),
+    "context": tf.TensorSpec(
+        shape=[None, MAX_PROMPT_LENGTH, HIDDEN_DIM], dtype=tf.float32, name="context"
+    ),
     "unconditional_context": tf.TensorSpec(
-        shape=[None, MAX_PROMPT_LENGTH, HIDDEN_DIM], dtype=tf.float32, name="unconditional_context"
+        shape=[None, MAX_PROMPT_LENGTH, HIDDEN_DIM],
+        dtype=tf.float32,
+        name="unconditional_context",
     ),
     "num_steps": tf.TensorSpec(shape=[], dtype=tf.int32, name="num_steps"),
     "unconditional_guidance_scale": tf.TensorSpec(
         shape=[], dtype=tf.float32, name="unconditional_guidance_scale"
-    )
+    ),
 }
 
 
@@ -39,7 +45,9 @@ def diffusion_model_exporter(model: tf.keras.Model):
         unconditional_context = inputs["unconditional_context"]
         unconditional_guidance_scale = inputs["unconditional_guidance_scale"]
 
-        latent = tf.random.normal((NUM_IMAGES_TO_GEN, img_height // 8, img_width // 8, 4))
+        latent = tf.random.normal(
+            (NUM_IMAGES_TO_GEN, img_height // 8, img_width // 8, 4)
+        )
 
         timesteps = tf.range(1, 1000, 1000 // num_steps)
         alphas = tf.map_fn(lambda t: ALPHAS_CUMPROD_tf[t], timesteps, dtype=tf.float32)
