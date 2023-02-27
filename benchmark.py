@@ -24,21 +24,23 @@ def load_keras_cv_sd(jit_compile=True):
     return model
 
 
-def load_saved_model(model_path):
+def load_as_concrete_fn(model_path):
+    """Prepares a concrete function out of a SavedModel."""
     model_loaded = tf.saved_model.load(model_path, tags=[tag_constants.SERVING])
-    return model_loaded
+    model_fn = model_loaded.signatures["serving_default"]
+    # Garbage collection hack :( 
+    # https://github.com/mlflow/mlflow/issues/4782#issuecomment-916938887
+    model_fn._backref_to_saved_model = model_loaded
+
+    return model_fn
+
 
 
 def load_concrete_fns_sd(jit_compile=True):
     """Loads the SavedModels of SD as concrete functions."""
-    df_model = load_saved_model(DIFFUSION_MODEL_PATH)
-    df_model_fn = df_model.signatures["serving_default"]
-    
-    text_encoder = load_saved_model(TEXT_ENCODER_PATH)
-    text_encoder_fn = text_encoder.signatures["serving_default"]
-    
-    decoder = load_saved_model(DECODER_PATH)
-    decoder_fn = decoder.signatures["serving_default"]
+    df_model_fn = load_as_concrete_fn(DIFFUSION_MODEL_PATH)
+    text_encoder_fn = load_as_concrete_fn(TEXT_ENCODER_PATH)
+    decoder_fn = load_as_concrete_fn(DECODER_PATH)
 
     if jit_compile:
         df_model_fn = tf.function(df_model_fn, jit_compile=jit_compile)
