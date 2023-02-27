@@ -79,7 +79,7 @@ def run_dummy_inference(model):
 
 
 def generate_images_from_text(
-    model, text, unconditional_guidance_scale=7.5, num_steps=25
+    model, text, unconditional_guidance_scale=7.5, num_steps=50
 ) -> np.ndarray:
     """Generates images from an input text prompt with the concrete functions."""
     df_model_fn, text_encoder_fn, decoder_fn = model
