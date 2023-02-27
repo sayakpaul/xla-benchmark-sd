@@ -40,6 +40,9 @@ def load_concrete_fns_sd(jit_compile=True):
         decoder_fn = tf.function(decoder_fn, jit_compile=jit_compile)
         # Cannot XLA-compile the text encoder. See: https://github.com/tensorflow/tensorflow/issues/59818
 
+    # Variable bindings.
+    run_inference_concrete_fn(df_model_fn, text_encoder_fn, decoder_fn)
+
     return df_model_fn, text_encoder_fn, decoder_fn
 
 
