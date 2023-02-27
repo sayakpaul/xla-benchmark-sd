@@ -24,15 +24,16 @@ def load_keras_cv_sd(jit_compile=True):
     return model
 
 
+def create_concrete_fn(model_path):
+    model_loaded = tf.saved_model.load(model_path, tags=[tag_constants.SERVING])
+    return model_loaded.signatures["serving_default"]
+
+
 def load_concrete_fns_sd(jit_compile=True):
     """Loads the SavedModels of SD as concrete functions."""
-    df_model_fn = tf.saved_model.load(
-        DIFFUSION_MODEL_PATH, tags=[tag_constants.SERVING]
-    )
-    text_encoder_fn = tf.saved_model.load(
-        TEXT_ENCODER_PATH, tags=[tag_constants.SERVING]
-    )
-    decoder_fn = tf.saved_model.load(DECODER_PATH, tags=[tag_constants.SERVING])
+    df_model_fn = create_concrete_fn(DIFFUSION_MODEL_PATH)
+    text_encoder_fn = create_concrete_fn(TEXT_ENCODER_PATH)
+    decoder_fn = create_concrete_fn(DECODER_PATH)
 
     if jit_compile:
         df_model_fn = tf.function(df_model_fn, jit_compile=jit_compile)
