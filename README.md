@@ -35,6 +35,8 @@ Once the SavedModels are generated, we load them as concrete functions and XLA-c
 
 ## Details of the benchmark
 
+The benchmarks were run on an `a2-highgpu-1g` [instance](https://cloud.google.com/compute/docs/gpus#a100-gpus). 
+
 ## Gotchas
 
 ## Acknowledgements

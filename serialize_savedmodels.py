@@ -24,7 +24,7 @@ def main():
     print("Loading the sub-models of Stable Diffusion...")
     text_encoder, diffusion_model, decoder = load_sd_models()
 
-    print("Serializing the models as SavedModels...")
+    print(f"Serializing the models as SavedModels...")
     tf.saved_model.save(
         diffusion_model,
         DIFFUSION_MODEL_PATH,
@@ -36,13 +36,13 @@ def main():
         TEXT_ENCODER_PATH,
         signatures={"serving_default": text_encoder_exporter(text_encoder)},
     )
-    print("Text encoder saved to: {TEXT_ENCODER_PATH}")
+    print(f"Text encoder saved to: {TEXT_ENCODER_PATH}")
     tf.saved_model.save(
         decoder,
         DECODER_PATH,
         signatures={"serving_default": decoder_exporter(decoder)},
     )
-    print("Decoder saved to: {DECODER_PATH}")
+    print(f"Decoder saved to: {DECODER_PATH}")
 
 
 if __name__ == "__main__":
